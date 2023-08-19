@@ -9,61 +9,59 @@ const inquirer = require('inquirer');
 const Shapes = require('./lib/shapes');
 const writeToFile = require('./lib.file');
 
-const questions = [
-    {
-        type: 'input',
-        name: 'title',
-        message: 'please enter text for your logo (enter up to three characters)',
-        validate: value => {
-            if (value) {
-                return true;
-            } else {
-                console.log('please choose a font color')
-                return false;
+//user prompts
+function init() {
+    inquirer
+        .prompt([
+            {
+                name: 'textChoice',
+                message: 'Enter text for logo (can be up to three letters'
             }
-        }
-    },
-    {
-        type: 'input',
-        name: 'fontColor',
-        message: 'What color would you like your font to be?',
-        validate: value => {
-            if (value) {
-                return true;
-            } else {
-                console.log('please choose a font color')
-                return false;
-            }
-        }
-},
-    {
-        type: 'list',
-        name: 'shapeChoice',
-        message: 'What shape would you like to use?',
-        choices: [
-            'circle',
-            'square',
-            'triangle',
-            'none'
-        ],
-    },
-    {
-        type: 'input',
-        name: 'shapeColor',
-        message: 'what color would you like your shape to be?',
-        validate: value => {
-            if (value) {
-                return true;
-            } else {
-                console.log('please choose a font color')
-                return false;
-            }
-        }
-    },
+        ])
+        .then(answers => {
+            console.info('Answer', answers.textChoice);
 
-];
+            inquirer
+                .prompt([
+                    {
+                        name: 'fontColor',
+                        message: 'choose a font color'
+                    }
+                ])
+                .then(answers => {
+                    console.info('Answer', answers.fontColor)
 
-    // Function call to initialize app
+
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'list',
+                                name: 'shapes',
+                                message: 'choose a shape',
+                                choices: ['circle', 'square', 'triangle'],
+                            },
+                        ])
+                        .then(answers => {
+                            console.info('Answer', answers.shapes)
+
+
+                            inquirer
+                                .prompt([
+                                    {
+                                        name: 'shapeColor',
+                                        message: 'choose a shape color'
+                                    }
+                                ])
+                                .then(answers => {
+                                    console.info('Answer', answers.shapeColor)
+                                });
+                        });
+                });
+        });
+}
+
+
+// Function call to initialize app
 init();
 
 
