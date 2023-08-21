@@ -6,9 +6,9 @@
 //lib/file.js: This module could contain the logic for writing SVG data to a file.
 
 const inquirer = require('inquirer');
-const Shapes = require('./lib/shapes');
-const writeToFile = require('./lib.file');
-
+const {Triangle, Circle, Square} = require('./lib/shapes');
+const writeToFile = require('./lib/file');
+const fs = require('fs')
 //user prompts
 function init() {
     inquirer
@@ -16,52 +16,58 @@ function init() {
             {
                 name: 'textChoice',
                 message: 'Enter text for logo (can be up to three letters'
+            },
+            {
+                name: 'fontColor',
+                message: 'choose a font color'
+            },
+            {
+                type: 'list',
+                name: 'shapeType',
+                message: 'choose a shape',
+                choices: ['circle', 'square', 'triangle']
+            },
+            {
+                type: 'list',
+                name: 'shapeColor',
+                message: 'Choose a shape color',
+                choices: ['green', 'blue', 'red', 'yellow', 'purple']
             }
         ])
+        
+        //create shape based on user input
         .then(answers => {
-            console.info('Answer', answers.textChoice);
+            const { textChoice, fontColor, shapeType, shapeColor } = answers;
 
-            inquirer
-                .prompt([
-                    {
-                        name: 'fontColor',
-                        message: 'choose a font color'
-                    }
-                ])
-                .then(answers => {
-                    console.info('Answer', answers.fontColor)
+            let shape;
+            if (shapeType === 'circle') {
+                shape = new Circle();
+                shape.setColor(shapeColor);
+            } else if (shapeType === 'square') {
+                shape = new Square();
+                shape.setColor(shapeColor);
+            } else if (shapeType === 'triangle') {
+                shape = new Triangle();
+                shape.setColor(shapeColor);
+                console.log(shape);
+            }
+            //generate svg markup
+            const svgMarkup = `<svg width="200" height="200">
+                ${shape.render()}
+                <text fill="${fontColor}" font-size="45" x="90" y="110" >${textChoice}</text>
+                </svg>`
 
+            //write svg data to file
+                const fileName = 'logo.svg';
+            fs.writeFileSync(fileName, svgMarkup);
 
-                    inquirer
-                        .prompt([
-                            {
-                                type: 'list',
-                                name: 'shapes',
-                                message: 'choose a shape',
-                                choices: ['circle', 'square', 'triangle'],
-                            },
-                        ])
-                        .then(answers => {
-                            console.info('Answer', answers.shapes)
+            console.log('SVG file created!')
 
-
-                            inquirer
-                                .prompt([
-                                    {
-                                        name: 'shapeColor',
-                                        message: 'choose a shape color'
-                                    }
-                                ])
-                                .then(answers => {
-                                    console.info('Answer', answers.shapeColor)
-                                });
-                        });
-                });
         });
 }
 
-
 // Function call to initialize app
 init();
+
 
 
