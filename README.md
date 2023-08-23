@@ -25,7 +25,6 @@ in the terminal and type in node index.js for the first prompt.
   
 ### licensing
 This project is licensed under the [MIT](https://opensource.org/licenses/MIT) license.
-[![License Badge](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Testing
 You can test this project by using jest.
