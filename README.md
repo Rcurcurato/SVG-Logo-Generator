@@ -38,7 +38,7 @@ For questions or concerns, you can reach out to rcurcurato89@gmail.com.
 Github: [rcurcurato89](https://github.com/rcurcurato89)
 
 # Video Link
-
+https://drive.google.com/file/d/1emCNjqROi-VODT83l8QQMCWvFFvN4_XF/view
 
 
 
